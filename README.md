@@ -3,6 +3,8 @@ A slack bot that uses [otd](https://github.com/dillonhafer/otd) to display an ev
 
 ## Usage
 
+By default it will bind to `127.0.0.0:23000`
+
 `./historybot`
 
 ## Options
