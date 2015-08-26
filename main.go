@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -75,12 +76,17 @@ func main() {
 		var jsonResp struct {
 			Text string `json:"text"`
 		}
+		fringeEvents, err := readLines("events/fringe")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 
 		// Create input string
 		var nevents []string
 		var years []string
 
-		for _, text := range events {
+		for _, text := range fringeEvents {
 			parts := strings.Split(text, "–")
 			if len(parts) > 1 {
 				nevents = append(nevents, parts[1])
@@ -124,4 +130,19 @@ func RandomYear(years []string) string {
 	rand.Seed(time.Now().UnixNano())
 	y := rand.Intn(totalYears)
 	return years[y]
+}
+
+func readLines(path string) ([]string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines, scanner.Err()
 }
