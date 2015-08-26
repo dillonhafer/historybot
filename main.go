@@ -91,7 +91,6 @@ func main() {
 			if len(parts) > 1 {
 				nevents = append(nevents, parts[1])
 				years = append(years, strings.Replace(parts[0], "On this day in ", "", -1))
-				println(parts[1])
 			}
 		}
 		year := RandomYear(years)
